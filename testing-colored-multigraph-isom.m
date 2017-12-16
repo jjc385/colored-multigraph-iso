@@ -118,6 +118,40 @@ Length@% == 0 // assert
 
 
 (* ::Subsubsection:: *)
+(*Both:  multi-colored multi-edge *)
+
+
+{
+	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->{1,2}|>},
+	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->{1,2}|>}
+};
+(*decorateGraph/@%
+%%;*)
+myIGFindIsomorphisms@@%
+Length@% > 0 // assert
+
+
+{
+	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->{1,2}|>},
+	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->{2,1}|>}
+};
+(*decorateGraph/@%
+%%;*)
+myIGFindIsomorphisms@@%
+Length@% > 0 // assert
+
+
+{
+	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->{1,2}|>},
+	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->{3,4}|>}
+};
+(*decorateGraph/@%
+%%;*)
+myIGFindIsomorphisms@@%
+Length@% == 0 // assert
+
+
+(* ::Subsubsection:: *)
 (*OP's tests*)
 
 
