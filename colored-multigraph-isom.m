@@ -1,5 +1,8 @@
 (* ::Package:: *)
 
+<<jjcLib`
+
+
 (* ::Section:: *)
 (*Implementation*)
 
@@ -133,34 +136,38 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 			Module[ { allMultiColors, allOptsColors, allColorPairs, 
 					colorPairsToIntAssoc, nColors,
 					newColors1, newColors2 },
-				allMultiColors = { colors1, colors2 } // Catenate ;
-				allOptsColors = Lookup[#,"EdgeColors",<||>]& /@ {{opts1},{opts2}} // Catenate ;
+				allMultiColors = { colors1, colors2 } ;
+				allOptsColors = Lookup[#,"EdgeColors",<||>]& /@ {{opts1},{opts2}} ;
+				
+				( allOptsColors // Sow[ #, "debug" -> "allOptsColors" ] & );
 				
 				(* process optsColors into association form *)
 				
 				allOptsColors = MapIndexed[
 					With[{ g = Extract[ {gr1, gr2}, #2 ] },
 						Switch[ #, 
-							None, <||>,
+							None|Null, <||>,
 							_List, Thread[ EdgeList@g -> # ],
 							_Association, #,
-							_, Throw["EdgeColor option not of the correct form"]
+							_, Throw@StringForm["EdgeColor option not of the correct form:  ``",#]
 						]
 					] & ,
 					allOptsColors
 				];
 				
+				Throw@StringForm[ "allOptsColors:  `1` \n allMultiColors:   `2`", allOptsColors, allMultiColors];
+				
 				(* sort edges in allOptsColors *)
 				allOptsColors = KeyValueMap[ Sort@#1 -> #2 & ] /@ allOptsColors
 				 (* ensure there are no duplicate edges upon sorting *)
-				 // With[ {prev=#}, 
+				 // Map[ With[ {prev=#}, 
 				        Association@# 
 				         // If[ Length@# != Length@prev, 
-				                Throw["Unimplemented:  color options specified for edge in both directions"] 
+				                Throw@StringForm["Unimplemented:  color options specified for edge in both directions.\n  prev:  `1`\n new:  `2`",prev,#] 
 				            ]&
-				    ] & ;
+				    ] & ];
 				
-			
+				Throw@StringForm[ "allOptsColors:  `1` \n allMultiColors:   `2`", allOptsColors, allMultiColors];
 
 				(* first, rewrite edge 'colors' in the form {optColor, multiColor} *)
 				allColorPairs = ( 
@@ -210,6 +217,8 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					{Graph@Keys[colors2],"EdgeColors"->newColors2, Sequence@@FilterRules[{opts2},Except@"EdgeColors"]},
 					args
 				]
+				
+			]
 		
 		]
 
@@ -223,23 +232,66 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 
 
 (* ::Subsection:: *)
-(*Asserts Setup*)
+(*Assert Machinery*)
 
 
 (* set up linked list of assert results *)
 assertRes={};
 
 
-(* ::Subsection:: *)
-(*Asserts*)
+(* ::Subsection::Closed:: *)
+(*Testing setup *)
 
 
 SetOptions[Graph,VertexLabels->Automatic];
 
 
 gSquare=CycleGraph[4,VertexLabels->Automatic];
-gSquareHSplit=EdgeAdd[gSquare,1->3]
-gSquareVSplit=EdgeAdd[gSquare,2->4]
+gSquareHSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {1<->3,1<->3}}//Catenate]
+gSquareVSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {2<->4,2<->4}}//Catenate]
+
+
+(* ::Subsection:: *)
+(*Tests (asserts)*)
+
+
+(* ::Subsubsection::Closed:: *)
+(*No edge colors (multigraphs)*)
+
+
+myIGFindIsomorphisms[gSquareHSplit2,gSquareVSplit2]
+Length@%>0
+assertRes = {assertRes, %};
+
+
+myIGFindIsomorphisms[{gSquareHSplit2},gSquareVSplit2]
+Length@%>0
+assertRes = {assertRes, %};
+
+
+myIGFindIsomorphisms[gSquareHSplit2,{gSquareVSplit2}]
+Length@%>0
+assertRes = {assertRes, %};
+
+
+myIGFindIsomorphisms[{gSquareHSplit2},{gSquareVSplit2}]
+Length@%>0
+assertRes = {assertRes, %};
+
+
+(* ::Subsubsection:: *)
+(*Both:  simple edge colored the same*)
+
+
+myIGFindIsomorphisms[
+	{gSquareHSplit2,"EdgeColors"-><|(1->2)->1|>},
+	{gSquareVSplit2,"EdgeColors"-><|(1->2)->1|>}
+]//reapRule["debug"->_]
+Last@%
+%%;
+First@%;
+Length@%>0
+assertRes = {assertRes, %};
 
 
 (* ::Subsection:: *)
