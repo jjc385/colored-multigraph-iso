@@ -46,7 +46,6 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				allMultiColors = { colors1, colors2 } ;
 				allOptsColors = Lookup[#,"EdgeColors",<||>]& /@ {{opts1},{opts2}} ;
 				
-				( allOptsColors // Sow[ #, "debug" -> "allOptsColors" ] & );
 				
 				(* process optsColors into association form *)
 				
@@ -83,7 +82,6 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				allColorPairs = ( 
 					Transpose@ { allOptsColors, allMultiColors }
 					 // Map[ KeyUnion[ #, 0& ] & /* Merge[ Identity ] ] (* { <|edge1i\[Rule]{optColor1i,multiColor1i}, ...|>, <|edge2i\[Rule]{,},...|> } *)
-					 // Sow[ #, "debug"->"allColorLists" ] & 
 				);
 				
 				(* now convert the {optColor, multiColor} pairs to unique integers *)
@@ -103,12 +101,9 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					    ]
 				);
 				
-				(colorPairsToIntAssoc // Sow[ #, "debug"->"colorPairsToIntAssoc" ] & );
-				
 				 
 				{newColors1, newColors2} = (
 					Map[ Replace[colorPairsToIntAssoc], allColorPairs, {2} ]
-					// Sow[ #, "debug"->"allNewColors" ] & 
 				);					
 
 
