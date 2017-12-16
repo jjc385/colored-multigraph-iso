@@ -131,7 +131,8 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 			(* ** properly merge options ** *)
 			
 			Module[ { allMultiColors, allOptsColors, allColorPairs, 
-					colorPairKeysAssoc, colorIntKeysAssoc, nColors },
+					colorPairsToIntAssoc, nColors,
+					newColors1, newColors2 },
 				allMultiColors = { colors1, colors2 } // Catenate ;
 				allOptsColors = Lookup[#,"EdgeColors",<||>]& /@ {{opts1},{opts2}} // Catenate ;
 				
@@ -170,17 +171,19 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				
 				(* now convert the {optColor, multiColor} pairs to unique integers *)
 				
-				colorPairKeysAssoc = <||>;
+				colorPairsToIntAssoc = <||>;
 				nColors=0;
 				
 				 (
 					allColorPairs 
 					 // Map[ Values ]
 					 // Catenate            (* { {optC1, multiC1}, ... } *)
-					 (* // Sort *)          (* Sorting keys, if desired *)
-					 // If[ !KeyExistsQ[ colorPairKeysAssoc, # ],
-					        AssociateTo[ colorPairKeysAssoc, # -> ++nColors ]
-					    ] &
+					 (* // Sort *)          (* Sort color pairs, if desired *)
+					 // Scan[
+					        If[ !KeyExistsQ[ colorPairsToIntAssoc, # ],
+					            AssociateTo[ colorPairsToIntAssoc, # -> ++nColors ]
+					        ] &
+					    ]
 				);
 				
 				
@@ -196,7 +199,16 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					 // Merge[ Catenate ] (* <| color_i \[Rule] { edge_1, edge_2, ...}, ... |> *)
 				 ) ;*)
 				 
-				 colorIntKeysAssoc = pass;
+				{newColors1, newColors2} = (
+					Map[ Replace[colorPairsToIntAssoc], allColorPairs, {2} ]
+				);					
+
+
+				IGraphM`IGVF2FindIsomorphisms[
+					{Graph@Keys[colors1],"EdgeColors"->newColors1, opts1},
+					{Graph@Keys[colors2],"EdgeColors"->newColors2, opts2},
+					args
+				]
 				 
 				
 				
@@ -256,18 +268,6 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 
 	]
 )
-
-
-IGDocumentation[]
-
-
-{<|1->a,2->b|>,<|1->c,2->d|>}
-%//Merge[Identity]
-
-
-{<|1->a,2->b|>,<|1->c,2->d|>}
-Map[List,%, {2}]
-%//Merge[Catenate]
 
 
 (* ::Section:: *)
