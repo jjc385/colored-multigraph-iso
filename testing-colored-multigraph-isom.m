@@ -151,6 +151,96 @@ myIGFindIsomorphisms@@%
 Length@% == 0 // assert
 
 
+{
+	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->{1,2}|>},
+	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->{2}|>}
+};
+(*decorateGraph/@%
+%%;*)
+myIGFindIsomorphisms@@%
+Length@% == 0 // assert
+
+
+{
+	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->{1,2}|>},
+	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->{1,2,3}|>}
+};
+(*decorateGraph/@%
+%%;*)
+myIGFindIsomorphisms@@%
+Length@% == 0 // assert
+
+
+(* ::Subsubsection:: *)
+(*1-cycles*)
+
+
+
+{gSquareHSplit2, gSquareVSplit2};
+{#1->multiEdgeH,#2->multiEdgeV}& @@%;
+Graph[Append[EdgeList@#1,First@#2<->First@#2]]&@@@%;
+
+{
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> 4|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> 4|>}
+} & @@ %;
+
+myIGFindIsomorphisms@@%
+Length@% > 0 //assert
+
+
+{gSquareHSplit2, gSquareVSplit2};
+{#1->multiEdgeH,#2->multiEdgeV}& @@%;
+Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+
+{
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> 4|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> 4|>}
+} & @@ %;
+
+myIGFindIsomorphisms@@%
+Length@% > 0 //assert
+
+
+{gSquareHSplit2, gSquareVSplit2};
+{#1->multiEdgeH,#2->multiEdgeV}& @@%;
+Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+
+{
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {4,5}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,5}|>}
+} & @@ %;
+
+myIGFindIsomorphisms@@%
+Length@% > 0 //assert
+
+
+{gSquareHSplit2, gSquareVSplit2};
+{#1->multiEdgeH,#2->multiEdgeV}& @@%;
+Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+
+{
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {5,4}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,5}|>}
+} & @@ %;
+
+myIGFindIsomorphisms@@%
+Length@% > 0 //assert
+
+
+{gSquareHSplit2, gSquareVSplit2};
+{#1->multiEdgeH,#2->multiEdgeV}& @@%;
+Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+
+{
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {4,5}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,6}|>}
+} & @@ %;
+
+myIGFindIsomorphisms@@%
+Length@% == 0 //assert
+
+
 (* ::Subsubsection:: *)
 (*OP's tests*)
 

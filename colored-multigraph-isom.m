@@ -167,6 +167,10 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				            ]&
 				    ] & ];
 				    
+				(* interpret 'colors' which have head List as multicolored multi-edges *)
+				(* allow multi-edge colors to be specified in any order *)
+				allOptsColors = Map[ Replace[x_List :> Sort@x], allOptsColors, {2} ];
+				
 			
 				(* first, rewrite edge 'colors' in the form {optColor, multiColor} *)
 				allColorPairs = ( 
