@@ -205,8 +205,8 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 
 
 				IGraphM`IGVF2FindIsomorphisms[
-					{Graph@Keys[colors1],"EdgeColors"->newColors1, opts1},
-					{Graph@Keys[colors2],"EdgeColors"->newColors2, opts2},
+					{Graph@Keys[colors1],"EdgeColors"->newColors1, Sequence@@FilterRules[{opts1},Except@"EdgeColors"]},
+					{Graph@Keys[colors2],"EdgeColors"->newColors2, Sequence@@FilterRules[{opts2},Except@"EdgeColors"]},
 					args
 				]
 				 
