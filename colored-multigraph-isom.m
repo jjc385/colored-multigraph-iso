@@ -210,60 +210,7 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					{Graph@Keys[colors2],"EdgeColors"->newColors2, Sequence@@FilterRules[{opts2},Except@"EdgeColors"]},
 					args
 				]
-				 
-				
-				
-
-
-			(* ** old way **)
-		(*	
-		(* {{{ *)
-			(* Make sure neither (1) color values nor (2) multigraph color keys (i.e., edges to be colored) are duplicated, for each graph*)
-			(* 1 -- check color values *)
-			Module[ {
-				allMultiColors = Values /@ { colors1, colors2 } // Catenate,
-				allOptsColors = Values@Lookup[#,"EdgeColors",{}]& /@ {{opts1},{opts2}} // Catenate
-				},
-
-				If[ Length @ Intersection[ allMultiColors, allOptsColors ] != 0,
-					Throw[ "myIGFindIsomorphisms:  specified edge colors incompatible with multigraph colorings"]
-				]
-			];
-			(* 2 -- check color keys (i.e., edges to be colored) *)
-			Module[ {
-				colorKeys1 = Map[Sort]@*Keys /@ { Select[colors1,#>1&], Lookup[{opts1}, "EdgeColors",{}] },
-				colorKeys2 = Map[Sort]@*Keys /@ { Select[colors2,#>1&], Lookup[{opts2}, "EdgeColors",{}] }
-				},
-
-				If[ Length @ Intersection@@ colorKeys1 != 0,
-					Throw[ "myIGFindIsomorphisms:  multigraph edges were assigned colors" ]
-				]
-			];
-			(* }}} *)
-			
-
-			(* now that colors have been shown to be compatible, attempt to combine them *)
-			Module[{newColors1, newColors2},
-				newColors1 = 
-					Append[ colors1, 
-						KeyMap[Sort]@Association@Lookup[{opts1},"EdgeColors"]
-					];
-				newColors2 = 
-					Append[ colors2, 
-						KeyMap[Sort]@Association@Lookup[{opts2},"EdgeColors"]
-					];
-					
-					
-										
-
-
-				IGraphM`IGVF2FindIsomorphisms[
-					{Graph@Keys[colors1],"EdgeColors"->newColors1, opts1},
-					{Graph@Keys[colors2],"EdgeColors"->newColors2, opts2},
-					args
-				]
-			]
-			*)
+		
 		]
 
 
