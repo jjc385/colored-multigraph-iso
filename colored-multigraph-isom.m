@@ -87,3 +87,38 @@ myIGFindIsomorphismsNoDuplicates[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_G
 
 	]
 )
+
+
+(* ::Section:: *)
+(*Tests*)
+
+
+(* ::Subsection:: *)
+(*Asserts Setup*)
+
+
+(* set up linked list of assert results *)
+assertRes={};
+
+
+(* ::Subsection:: *)
+(*Asserts*)
+
+
+SetOptions[Graph,VertexLabels->Automatic];
+
+
+gSquare=CycleGraph[4,VertexLabels->Automatic];
+gSquareHSplit=EdgeAdd[gSquare,1->3]
+gSquareVSplit=EdgeAdd[gSquare,2->4]
+
+
+(* ::Subsection:: *)
+(*Make sure asserts are all True*)
+
+
+assertRes = {assertRes,True};
+(
+And @@ Flatten@assertRes
+  // If[ ! TrueQ@#, Throw["Asserts failed"], Print["Asserts passed"] ]&
+)
