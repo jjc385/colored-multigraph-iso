@@ -186,7 +186,7 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					    ]
 				);
 				
-				
+				(colorPairsToIntAssoc // Sow[ #, "debug"->"colorPairsToIntAssoc" ] & );
 				
 				(*
 				(* doesn't work -- mixed edges from different graphs *)
@@ -201,6 +201,7 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				 
 				{newColors1, newColors2} = (
 					Map[ Replace[colorPairsToIntAssoc], allColorPairs, {2} ]
+					// Sow[ #, "debug"->"allNewColors" ] & ;
 				);					
 
 
