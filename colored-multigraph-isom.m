@@ -155,7 +155,6 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 					allOptsColors
 				];
 				
-				Throw@StringForm[ "allOptsColors:  `1` \n allMultiColors:   `2`", allOptsColors, allMultiColors];
 				
 				(* sort edges in allOptsColors *)
 				allOptsColors = KeyValueMap[ Sort@#1 -> #2 & ] /@ allOptsColors
@@ -163,12 +162,12 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				 // Map[ With[ {prev=#}, 
 				        Association@# 
 				         // If[ Length@# != Length@prev, 
-				                Throw@StringForm["Unimplemented:  color options specified for edge in both directions.\n  prev:  `1`\n new:  `2`",prev,#] 
+				                Throw@StringForm["Unimplemented:  color options specified for edge in both directions.\n  prev:  `1`\n new:  `2`",prev,#],
+				                # 
 				            ]&
 				    ] & ];
-				
-				Throw@StringForm[ "allOptsColors:  `1` \n allMultiColors:   `2`", allOptsColors, allMultiColors];
-
+				    
+			
 				(* first, rewrite edge 'colors' in the form {optColor, multiColor} *)
 				allColorPairs = ( 
 					Transpose@ { allOptsColors, allMultiColors }
@@ -208,7 +207,7 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				 
 				{newColors1, newColors2} = (
 					Map[ Replace[colorPairsToIntAssoc], allColorPairs, {2} ]
-					// Sow[ #, "debug"->"allNewColors" ] & ;
+					// Sow[ #, "debug"->"allNewColors" ] & 
 				);					
 
 
