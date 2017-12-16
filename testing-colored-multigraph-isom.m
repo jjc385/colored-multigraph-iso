@@ -48,8 +48,8 @@ SetOptions[Graph,VertexLabels->Automatic];
 
 
 gSquare=CycleGraph[4,VertexLabels->Automatic];
-gSquareHSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {multiEdgeH=1<->3,1<->3}}//Catenate]
-gSquareVSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {multiEdgeV=2<->4,2<->4}}//Catenate]
+gSquareHSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {multiEdgeH=1\[UndirectedEdge]3,1\[UndirectedEdge]3}}//Catenate]
+gSquareVSplit2=Graph[VertexList@gSquare,{EdgeList@gSquare, {multiEdgeV=2\[UndirectedEdge]4,2\[UndirectedEdge]4}}//Catenate]
 
 
 (* ::Subsection:: *)
@@ -85,8 +85,8 @@ assertRes = {assertRes, %};
 
 
 myIGFindIsomorphisms[
-	{gSquareHSplit2,"EdgeColors"-><|(1<->2)->1|>},
-	{gSquareVSplit2,"EdgeColors"-><|(1<->2)->1|>}
+	{gSquareHSplit2,"EdgeColors"-><|(1\[UndirectedEdge]2)->1|>},
+	{gSquareVSplit2,"EdgeColors"-><|(1\[UndirectedEdge]2)->1|>}
 ]
 Length@%>0
 assertRes = {assertRes, %};
@@ -99,7 +99,7 @@ assertRes = {assertRes, %};
 {
 	{gSquareHSplit2,"EdgeColors"-><|multiEdgeH->2|>},
 	{gSquareVSplit2,"EdgeColors"-><|multiEdgeV->2|>}
-};
+}
 decorateGraph/@%
 %%;
 myIGFindIsomorphisms@@%
@@ -175,14 +175,13 @@ Length@% == 0 // assert
 (*1-cycles*)
 
 
-
 {gSquareHSplit2, gSquareVSplit2};
 {#1->multiEdgeH,#2->multiEdgeV}& @@%;
-Graph[Append[EdgeList@#1,First@#2<->First@#2]]&@@@%;
+Graph[Append[EdgeList@#1,First@#2\[UndirectedEdge]First@#2]]&@@@%;
 
 {
-	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> 4|>},
-	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> 4|>}
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH\[UndirectedEdge]First@multiEdgeH) -> 4|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV\[UndirectedEdge]First@multiEdgeV) -> 4|>}
 } & @@ %;
 
 myIGFindIsomorphisms@@%
@@ -191,11 +190,11 @@ Length@% > 0 //assert
 
 {gSquareHSplit2, gSquareVSplit2};
 {#1->multiEdgeH,#2->multiEdgeV}& @@%;
-Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+Graph[Join[EdgeList@#1,{First@#2\[UndirectedEdge]First@#2,First@#2\[UndirectedEdge]First@#2}]]&@@@%;
 
 {
-	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> 4|>},
-	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> 4|>}
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH\[UndirectedEdge]First@multiEdgeH) -> 4|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV\[UndirectedEdge]First@multiEdgeV) -> 4|>}
 } & @@ %;
 
 myIGFindIsomorphisms@@%
@@ -204,11 +203,11 @@ Length@% > 0 //assert
 
 {gSquareHSplit2, gSquareVSplit2};
 {#1->multiEdgeH,#2->multiEdgeV}& @@%;
-Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+Graph[Join[EdgeList@#1,{First@#2\[UndirectedEdge]First@#2,First@#2\[UndirectedEdge]First@#2}]]&@@@%;
 
 {
-	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {4,5}|>},
-	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,5}|>}
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH\[UndirectedEdge]First@multiEdgeH) -> {4,5}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV\[UndirectedEdge]First@multiEdgeV) -> {4,5}|>}
 } & @@ %;
 
 myIGFindIsomorphisms@@%
@@ -217,11 +216,11 @@ Length@% > 0 //assert
 
 {gSquareHSplit2, gSquareVSplit2};
 {#1->multiEdgeH,#2->multiEdgeV}& @@%;
-Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+Graph[Join[EdgeList@#1,{First@#2\[UndirectedEdge]First@#2,First@#2\[UndirectedEdge]First@#2}]]&@@@%;
 
 {
-	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {5,4}|>},
-	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,5}|>}
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH\[UndirectedEdge]First@multiEdgeH) -> {5,4}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV\[UndirectedEdge]First@multiEdgeV) -> {4,5}|>}
 } & @@ %;
 
 myIGFindIsomorphisms@@%
@@ -230,11 +229,11 @@ Length@% > 0 //assert
 
 {gSquareHSplit2, gSquareVSplit2};
 {#1->multiEdgeH,#2->multiEdgeV}& @@%;
-Graph[Join[EdgeList@#1,{First@#2<->First@#2,First@#2<->First@#2}]]&@@@%;
+Graph[Join[EdgeList@#1,{First@#2\[UndirectedEdge]First@#2,First@#2\[UndirectedEdge]First@#2}]]&@@@%;
 
 {
-	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH<->First@multiEdgeH) -> {4,5}|>},
-	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV<->First@multiEdgeV) -> {4,6}|>}
+	{#1,"EdgeColors"-><|multiEdgeH->{1,2}, (First@multiEdgeH\[UndirectedEdge]First@multiEdgeH) -> {4,5}|>},
+	{#2,"EdgeColors"-><|multiEdgeV->{1,2}, (First@multiEdgeV\[UndirectedEdge]First@multiEdgeV) -> {4,6}|>}
 } & @@ %;
 
 myIGFindIsomorphisms@@%
@@ -245,13 +244,13 @@ Length@% == 0 //assert
 (*OP's tests*)
 
 
-gr[1]={1 <-> 2, 3 <-> 8, 8 <-> 9, 9 <-> 4, 1 <-> 10, 10 <-> 11, 11 <-> 2, 5 <-> 5, 5 <-> 6, 3 <-> 6, 6 <-> 7, 4 <-> 7, 5 <-> 7}
+gr[1]={1 \[UndirectedEdge] 2, 3 \[UndirectedEdge] 8, 8 \[UndirectedEdge] 9, 9 \[UndirectedEdge] 4, 1 \[UndirectedEdge] 10, 10 \[UndirectedEdge] 11, 11 \[UndirectedEdge] 2, 5 \[UndirectedEdge] 5, 5 \[UndirectedEdge] 6, 3 \[UndirectedEdge] 6, 6 \[UndirectedEdge] 7, 4 \[UndirectedEdge] 7, 5 \[UndirectedEdge] 7}
 vr[1]=<|8 -> 3, 10 -> 3, 9 -> 7, 11 -> 7|>
-ed[1]=<|6 <-> 7 -> 10|>
+ed[1]=<|6 \[UndirectedEdge] 7 -> 10|>
 
-gr[2]={1 <-> 2, 3 <-> 8, 8 <-> 9, 9 <-> 3, 4 <-> 10, 10 <-> 11, 11 <-> 2, 5 <-> 5, 3 <-> 3, 5 <-> 6, 5 <-> 6, 6 <-> 7, 1 <-> 7, 4 <-> 7}
+gr[2]={1 \[UndirectedEdge] 2, 3 \[UndirectedEdge] 8, 8 \[UndirectedEdge] 9, 9 \[UndirectedEdge] 3, 4 \[UndirectedEdge] 10, 10 \[UndirectedEdge] 11, 11 \[UndirectedEdge] 2, 5 \[UndirectedEdge] 5, 3 \[UndirectedEdge] 3, 5 \[UndirectedEdge] 6, 5 \[UndirectedEdge] 6, 6 \[UndirectedEdge] 7, 1 \[UndirectedEdge] 7, 4 \[UndirectedEdge] 7}
 vr[2]=<|8 -> 3, 10 -> 3, 9 -> 7, 11 -> 7|>
-ed[2]=<|6 <-> 7 -> 10|>
+ed[2]=<|6 \[UndirectedEdge] 7 -> 10|>
 
 
 
@@ -270,7 +269,11 @@ myIGFindIsomorphisms[{Graph[gr[1]], "VertexColors" -> vr[1], "EdgeColors" -> ed[
 
 
 assertRes = {assertRes,True};
-(
+
+assertStatus = (
 And @@ Flatten@assertRes
-  // If[ ! TrueQ@#, Throw["Asserts failed"], Print["Asserts passed"] ]&
+  // If[ ! TrueQ@#, Throw["Asserts failed"], Echo["Asserts passed"] ]&
 )
+
+
+
