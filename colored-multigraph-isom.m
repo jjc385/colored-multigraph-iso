@@ -105,16 +105,6 @@ myIGFindIsomorphisms[gr1_Graph|{gr1_Graph,opts1___},gr2_Graph|{gr2_Graph,opts2__
 				
 				(colorPairsToIntAssoc // Sow[ #, "debug"->"colorPairsToIntAssoc" ] & );
 				
-				(*
-				(* doesn't work -- mixed edges from different graphs *)
-				
-				(* associate edges according to colors *)
-				colorPairKeysAssoc = (
-					allColorPairs
-					 // Map[ MapAt[List, -1] @* Map[Reverse] @* Normal ]  
-					 // Catenate          (* { color_i \[Rule] {edge_i}, ... } *)
-					 // Merge[ Catenate ] (* <| color_i \[Rule] { edge_1, edge_2, ...}, ... |> *)
-				 ) ;*)
 				 
 				{newColors1, newColors2} = (
 					Map[ Replace[colorPairsToIntAssoc], allColorPairs, {2} ]
